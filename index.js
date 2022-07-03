@@ -50,6 +50,4 @@ getPosts().then(function (result){
     console.log(result);
 }).catch(function(error){
     console.log(error);
-}).then(function(){
-    console.log('coucou');
-})
+});
