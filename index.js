@@ -1,5 +1,6 @@
 let key = "10616696340915169606x72298";
-var longitude, latitude;
+var longitude;
+var latitude;
 const options = {
     enableHighAccuracy: true,
     timeout: 5000,
@@ -12,7 +13,7 @@ function success(pos) {
     latitude = crd.latitude;
     console.log(longitude + ' ' +latitude)
 }
-
+console.log(longitude + ' ' +latitude) //ça me renvoie undefined :(
 function error(err) {
     console.warn(`ERREUR (${err.code}): ${err.message}`);
 }
@@ -20,9 +21,8 @@ function error(err) {
 navigator.geolocation.getCurrentPosition(success, error, options);
 
 fetch(`https://geocode.xyz/${latitude},${longitude}?json=1&auth=${key}`)
-.then(response => response.json())
-.then((data) => {
-    console.log(data);
+.then(response => {
+    console.log(response);
 }).catch((error) => {
     console.error('Error:', error)
 });
