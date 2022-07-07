@@ -1,33 +1,25 @@
+
+//On a besoin d'un boutton
 let key = "10616696340915169606x72298";
-let longitude;
-let latitude;
-const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
+const btn = document.querySelector(".btn");
+
+const getPosition = function(){
+    return new Promise(function(resolve, reject){
+        navigator.geolocation.getCurrentPosition((position) => resolve(position),
+        (err) => reject(err)
+        );
+    });
 };
- 
-function success(pos) {
-    var crd = pos.coords;
-    longitude = crd.longitude;
-    latitude = crd.latitude;
-} 
-function error(err) {
-    console.warn(`ERREUR (${err.code}): ${err.message}`);
-}
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+btn.addEventListener("click", function(){
 
-const result = new Promise((resolve, reject)=>{
-    if (resolve) {
-        resolve("cool")
-    } else {
-        reject();
-    }
-}).then((response) =>{
-    console.log(response)
-}).catch((err) =>{
-    console.log(err);
-})
-// const result = await fetch(`https://geocode.xyz/${latitude},${longitude}?json=1&auth=${key}`)
-
+    getPosition().then((position) => {
+        const result = position.coords;
+        // console.log(result.latitude);
+        // console.log(result.longitude);
+        fetch(`https://geocode.xyz/${result.latitude},${result.longitude}?geoit=xml&auth=${key}`)
+        .then(response => {
+            console.log(response);
+        })
+    });
+});
